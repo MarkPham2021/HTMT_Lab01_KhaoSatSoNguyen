@@ -221,5 +221,99 @@ namespace KhaoSatSoNguyen
                 kq = LaySoDoi16(thanhghi);
             return kq;
         }
+        //Phep chia theo giai thuat tren slide khong chia duoc khi so bi chia la so am
+        //vi so am tru di so chia luon cho ket qua am nen thuong luon bang 0.
+        public static string PhepChia(string sobichia, string sochia, out string sodu)
+        {
+            string kq = "";
+            sobichia =DinhDangTamBit(sobichia);
+            sochia =DinhDangTamBit(sochia);
+            string thanhghi = "", a ="", hieu="", con="";
+            int k = 8;
+            if (LaSoAm(sobichia))
+            {
+                thanhghi="11111111"+sobichia;
+            }
+            else
+            {
+                thanhghi = "00000000" + sobichia;
+            }
+            
+            while (k > 0)
+            {
+                thanhghi = SHL(thanhghi);
+                a = thanhghi.Substring(0, 8);
+                hieu = PhepTru(a, sochia);
+                if (LaSoAm(hieu))
+                {
+                    con =thanhghi.Substring(0, 15);
+                    thanhghi = con + "0";
+                }
+                else
+                {                    
+                    con = thanhghi.Substring(8, 7);
+                    thanhghi =  hieu + con + "1";
+                }                
+                k--;
+            }
+            kq = thanhghi.Substring(8, 8);
+            sodu = thanhghi.Substring(0, 8);
+            return kq;
+        }
+        //nen dung phepchiaM: phep chia cai tien
+        public static string PhepChiaM(string sobichia, string sochia, out string sodu)
+        {
+            string kq = "";
+            sobichia = DinhDangTamBit(sobichia);
+            sochia = DinhDangTamBit(sochia);
+            int dausobichia, dausochia, dauketqua;
+            string thanhghi = "", a = "", hieu = "", con = "";
+            int k = 8;
+            if (LaSoAm(sobichia))
+            {
+                dausobichia=-1;
+                sobichia = LaySoDoi(sobichia);
+            }
+            else
+            {
+                dausobichia=1;
+            }
+            if (LaSoAm(sochia))
+            {
+                dausochia = -1;
+                sochia = LaySoDoi(sochia);
+            }
+            else
+            {
+                dausochia = 1;
+            }
+            dauketqua=dausobichia*dausochia;
+            thanhghi = "00000000" + sobichia;
+            while (k > 0)
+            {
+                thanhghi = SHL(thanhghi);
+                a = thanhghi.Substring(0, 8);
+                hieu = PhepTru(a, sochia);
+                if (LaSoAm(hieu))
+                {
+                    con = thanhghi.Substring(0, 15);
+                    thanhghi = con + "0";
+                }
+                else
+                {
+                    con = thanhghi.Substring(8, 7);
+                    thanhghi = hieu + con + "1";
+                }
+                k--;
+            }
+            kq = thanhghi.Substring(8, 8);
+            sodu = thanhghi.Substring(0, 8);
+            if (dauketqua == -1)
+            {
+                kq=LaySoDoi(kq);
+            }
+            
+            return kq;
+        }
     }
 }
