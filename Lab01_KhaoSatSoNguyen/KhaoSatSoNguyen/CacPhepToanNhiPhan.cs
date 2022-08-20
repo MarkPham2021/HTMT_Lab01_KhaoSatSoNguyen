@@ -38,7 +38,7 @@ namespace KhaoSatSoNguyen
             r = chuoibit.Replace('0', '2');
             r = r.Replace('1', '0');
             r = r.Replace('2', '1');
-            r = PhepCong16(r, "0000000000000001");
+            r = PhepCong16(r, "00000000000000001");
             return r;
         }
         public static bool LaSoAm(string chuoibit) 
@@ -90,7 +90,7 @@ namespace KhaoSatSoNguyen
             string kq = "";
             var tempstk = new Stack<int>();
             int c = 0;
-            for (int i = 15; i >= 0; i--)
+            for (int i = 16; i >= 0; i--)
             {
                 int a = int.Parse(bit1[i].ToString());
                 int b = int.Parse(bit2[i].ToString());
@@ -214,10 +214,10 @@ namespace KhaoSatSoNguyen
             }
             if (dau > 0)
             {
-                kq = thanhghi.Substring(1);
+                kq = thanhghi;
             }
             else
-                thanhghi = thanhghi.Substring(1);
+                
                 kq = LaySoDoi16(thanhghi);
             return kq;
         }
@@ -313,6 +313,31 @@ namespace KhaoSatSoNguyen
                 kq=LaySoDoi(kq);
             }
             
+            return kq;
+        }
+        public static bool CoTranSoPhepCong(string bit1, string bit2)
+        {
+            bit1 = DinhDangTamBit(bit1);
+            bit2 = DinhDangTamBit(bit2);
+            int dau1 = 1, dau2 =1;
+            if (LaSoAm(bit1)) dau1 = -1;
+            if (LaSoAm(bit2)) dau2 = -1;
+            int dau = dau1 + dau2;
+            int daukq=1;
+            if (LaSoAm(PhepCong(bit1, bit2))) { daukq = -1; };
+            return (dau * daukq < 0);
+        }
+        public static bool CoTranSoPhepTru(string bit1, string bit2)
+        {
+            bool kq = false;
+            bit1 = DinhDangTamBit(bit1);
+            bit2 = DinhDangTamBit(bit2);
+            int dau1 = 1, dau2 = 2;
+            if (LaSoAm(bit1)) dau1 = -1;
+            if (LaSoAm(bit2)) dau2 = -2;            
+            int daukq = 1;
+            if (LaSoAm(PhepTru(bit1, bit2))) { daukq = -1; };
+            if ((dau1 < 0 && dau2 > 0 && daukq > 0)|| (dau1 > 0 && dau2 < 0 && daukq < 0)) { kq = true; }
             return kq;
         }
     }
